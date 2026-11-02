@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0C0819">
+<title>测测你是 A2O LITE 里的谁 | 你是 YOUNG、HIMEKI、VORA、XILI、RADA、MERCI、AYUNE、OA 还是 AIJING？</title>
+<style>
+:root{
+  --void:#07050F;
+  --bg:#0C0819;
+  --pink:#FF2E9A;
+  --pink-d:#FF6FC0;
+  --cyan:#00E5FF;
+  --violet:#A855F7;
+  --lime:#C8FF4D;
+  --ink:#F4F0FF;
+  --ink2:#C6BBE6;
+  --sub:#8C7EB2;
+  --glass:rgba(255,255,255,.055);
+  --line:rgba(255,255,255,.13);
+  --r:20px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(900px 620px at 12% -8%, rgba(255,46,154,.22), transparent 62%),
+    radial-gradient(760px 560px at 96% 10%, rgba(0,229,255,.17), transparent 60%),
+    radial-gradient(820px 700px at 50% 108%, rgba(168,85,247,.22), transparent 62%),
+    var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;
+  min-height:100vh;overflow-x:hidden;
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+ 
+/* ================= 背景：霓虹光晕 + 颗粒 + 扫描线 + 像素星 ================= */
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bgfx .blob{position:absolute;border-radius:50%;filter:blur(52px);opacity:.62;mix-blend-mode:screen;}
+.bgfx .b1{width:340px;height:340px;top:-110px;left:-120px;
+  background:radial-gradient(circle at 34% 32%,rgba(255,46,154,.95),rgba(255,46,154,.35) 55%,rgba(255,46,154,0) 72%);
+  animation:drift1 19s ease-in-out infinite;}
+.bgfx .b2{width:320px;height:320px;top:16%;right:-140px;
+  background:radial-gradient(circle at 60% 40%,rgba(0,229,255,.9),rgba(0,229,255,.3) 55%,rgba(0,229,255,0) 72%);
+  animation:drift2 23s ease-in-out infinite;}
+.bgfx .b3{width:330px;height:330px;bottom:-120px;left:-60px;
+  background:radial-gradient(circle at 40% 60%,rgba(168,85,247,.9),rgba(168,85,247,.3) 55%,rgba(168,85,247,0) 72%);
+  animation:drift3 27s ease-in-out infinite;}
+.bgfx .b4{width:270px;height:270px;bottom:6%;right:-100px;
+  background:radial-gradient(circle at 50% 50%,rgba(200,255,77,.55),rgba(200,255,77,.18) 55%,rgba(200,255,77,0) 72%);
+  animation:drift1 31s ease-in-out infinite reverse;}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(38px,30px) scale(1.09)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-34px,26px) scale(1.12)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-28px) scale(1.07)}}
+ 
+/* 网格地平线（赛博感） */
+.bgfx::after{content:"";position:absolute;left:-30%;right:-30%;bottom:-10px;height:44%;
+  background-image:linear-gradient(rgba(0,229,255,.20) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(0,229,255,.16) 1px,transparent 1px);
+  background-size:44px 44px;
+  transform:perspective(320px) rotateX(66deg);transform-origin:bottom;
+  mask-image:linear-gradient(transparent,rgba(0,0,0,.75) 45%,transparent);
+  -webkit-mask-image:linear-gradient(transparent,rgba(0,0,0,.75) 45%,transparent);
+  opacity:.5;}
+ 
+.bgfx .grain{position:absolute;inset:-60px;opacity:.14;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.55'/></svg>");
+  animation:grainmove 1.1s steps(3,end) infinite;}
+@keyframes grainmove{
+  0%{transform:translate(0,0)}33%{transform:translate(-12px,8px)}66%{transform:translate(9px,-11px)}100%{transform:translate(0,0)}}
+.bgfx .scan{position:absolute;inset:0;opacity:.35;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.055) 0 1px,transparent 1px 3px);
+  animation:scanmove 1.6s linear infinite;}
+@keyframes scanmove{to{transform:translateY(4px)}}
+ 
+.pstar{position:absolute;width:3px;height:3px;background:var(--cyan);opacity:.9;
+  box-shadow:0 0 7px var(--cyan);animation:twinkle 2.6s ease-in-out infinite;}
+.pstar.plus{box-shadow:0 -7px 0 var(--cyan),0 7px 0 var(--cyan),-7px 0 0 var(--cyan),7px 0 0 var(--cyan);}
+@keyframes twinkle{0%,100%{opacity:.18;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+ 
+.app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px 44px;}
+ 
+/* ================= 顶栏 ================= */
+.topbar{position:sticky;top:0;z-index:20;margin:0 -16px 0;padding:11px 16px 9px;
+  background:linear-gradient(180deg,rgba(12,8,25,.96),rgba(12,8,25,.72));
+  backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,46,154,.22);
+  box-shadow:0 6px 22px rgba(0,0,0,.5);}
+.topbar .row{display:flex;align-items:center;gap:8px;justify-content:center;}
+.topbar .tt{font-size:13.5px;font-weight:600;letter-spacing:.2px;color:var(--ink);line-height:1.5;}
+.topbar .tt .div{color:var(--pink);margin:0 6px;font-weight:400;opacity:.8;}
+.topbar .ts{font-weight:400;color:var(--sub);font-size:12px;letter-spacing:0;}
+.rec{flex:none;display:inline-flex;align-items:center;gap:4px;font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:10px;font-weight:700;letter-spacing:1.4px;color:var(--pink-d);
+  border:1px solid rgba(255,46,154,.5);border-radius:6px;padding:2px 6px;
+  background:rgba(255,46,154,.10);box-shadow:0 0 10px rgba(255,46,154,.25);}
+.rec i{width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink);animation:recblink 1.4s steps(1,end) infinite;}
+@keyframes recblink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+ 
+.marquee{overflow:hidden;white-space:nowrap;margin:0 -16px 16px;padding:7px 0;
+  border-bottom:1px solid rgba(0,229,255,.18);
+  background:linear-gradient(90deg,rgba(255,46,154,.10),rgba(0,229,255,.10));}
+.marquee > span{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:3.5px;
+  color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.8);animation:mq 26s linear infinite;}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+ 
+.page{animation:pagein .44s cubic-bezier(.2,.9,.3,1) both;}
+.hidden{display:none!important;}
+@keyframes pagein{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+ 
+/* ================= 卡片：暗色玻璃 + 霓虹边 ================= */
+.card{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(26,17,48,.94),rgba(13,8,26,.96));
+  border:1px solid var(--line);border-radius:var(--r);padding:22px 18px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 20px 46px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08),
+             0 0 26px rgba(255,46,154,.07);}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet) 38%,var(--pink) 70%,var(--lime));
+  box-shadow:0 0 14px rgba(255,46,154,.65);}
+.card > *{position:relative;}
+ 
+.cover-card{text-align:center;padding:30px 20px 26px;}
+.pxrow{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:16px;}
+.pxrow > *{animation:bob 2.6s ease-in-out infinite;filter:drop-shadow(0 0 8px currentColor);}
+.pxrow > *:nth-child(2){animation-delay:.4s;}
+.pxrow > *:nth-child(3){animation-delay:.8s;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+ 
+.cover-kicker{display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:10px;font-weight:700;letter-spacing:3px;color:var(--cyan);
+  border:1px solid rgba(0,229,255,.42);border-radius:999px;padding:4px 12px;margin-bottom:14px;
+  background:rgba(0,229,255,.08);text-shadow:0 0 10px rgba(0,229,255,.7);}
+.cover-title{font-size:31px;line-height:1.34;font-weight:800;letter-spacing:1px;margin:0 0 8px;
+  background:linear-gradient(180deg,#FFFFFF 22%,#FFD9F0 52%,#9BE9FF 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 14px rgba(255,46,154,.55)) drop-shadow(0 2px 0 rgba(0,229,255,.35));}
+.cover-sub{font-size:14px;color:var(--ink2);margin:0 0 18px;}
+.cover-line{height:0;margin:0 auto 18px;width:64px;border-top:1px solid rgba(255,255,255,.18);
+  box-shadow:0 0 12px rgba(0,229,255,.7);}
+.cover-intro{font-size:14px;color:var(--ink2);text-align:left;margin:0 0 20px;}
+.cover-intro b{color:var(--pink-d);font-weight:700;text-shadow:0 0 10px rgba(255,46,154,.45);}
+ 
+.chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:22px;}
+.chip{font-size:12px;font-weight:600;color:var(--ink);background:var(--glass);
+  border:1px solid var(--line);border-radius:10px;padding:6px 13px;
+  box-shadow:0 3px 10px rgba(0,0,0,.35);}
+.chip:nth-child(1){transform:rotate(-2.5deg);border-color:rgba(255,46,154,.45);color:#FFC7E6;}
+.chip:nth-child(2){transform:rotate(2deg);border-color:rgba(0,229,255,.45);color:#B7F2FF;}
+.chip:nth-child(3){transform:rotate(-1deg);border-color:rgba(200,255,77,.4);color:#E8FFB0;}
+ 
+.btn{display:block;width:100%;border:none;border-radius:999px;padding:15px 16px;
+  font-family:inherit;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;
+  transition:transform .12s,box-shadow .12s;}
+.btn-primary{color:#fff;text-shadow:0 1px 3px rgba(120,0,60,.6);
+  background:linear-gradient(180deg,#FF55AE,#FF2E9A 55%,#E0117F);
+  box-shadow:0 5px 0 #A80C5F,0 10px 26px rgba(255,46,154,.42),0 0 22px rgba(255,46,154,.35);}
+.btn-primary:active{transform:translateY(4px);box-shadow:0 1px 0 #A80C5F,0 4px 12px rgba(255,46,154,.4);}
+.btn-primary:disabled{background:linear-gradient(180deg,#3A2C52,#2A1F3E);color:#7C6C99;text-shadow:none;
+  box-shadow:0 5px 0 #221932;cursor:not-allowed;}
+.btn-ghost{background:var(--glass);color:var(--ink2);border:1.5px solid var(--line);
+  box-shadow:0 4px 0 rgba(0,0,0,.35);}
+.btn-ghost:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.3);}
+.cover-note{margin-top:16px;font-size:11.5px;color:var(--sub);letter-spacing:.3px;}
+ 
+/* ================= 答题页 ================= */
+.q-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.q-num{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:1.5px;color:var(--sub);}
+.q-num b{color:var(--cyan);font-weight:700;text-shadow:0 0 8px rgba(0,229,255,.6);}
+.bar{height:11px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--line);
+  overflow:hidden;position:relative;box-shadow:inset 0 2px 5px rgba(0,0,0,.5);}
+.bar > i{display:block;height:100%;border-radius:999px;position:relative;
+  background:repeating-linear-gradient(90deg,var(--cyan) 0 8px,var(--violet) 8px 16px,var(--pink) 16px 24px);
+  box-shadow:0 0 12px rgba(255,46,154,.6);transition:width .45s cubic-bezier(.2,.9,.3,1);}
+.bar > i::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  animation:shine 2.1s linear infinite;}
+.bar::after{content:"";position:absolute;top:0;bottom:0;width:34px;left:-40px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+  animation:shine 2.1s linear infinite;}
+@keyframes shine{0%{left:-40px}60%,100%{left:120%}}
+ 
+.q-title{font-size:19px;font-weight:700;line-height:1.62;letter-spacing:.3px;margin:0 0 18px;color:var(--ink);}
+.opt{position:relative;display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+  font-family:inherit;font-size:15px;line-height:1.6;color:var(--ink2);
+  background:var(--glass);border:1.5px solid var(--line);border-radius:16px;
+  padding:14px 40px 14px 14px;margin-bottom:11px;cursor:pointer;
+  transition:border-color .18s,background .18s,color .18s,transform .12s;
+  animation:optin .42s cubic-bezier(.2,.9,.3,1.1) both;}
+@keyframes optin{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.opt:active{transform:scale(.98);}
+.opt.on{border-color:var(--pink);color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,46,154,.16),rgba(168,85,247,.09));
+  box-shadow:0 0 0 1px rgba(255,46,154,.35),0 0 20px rgba(255,46,154,.28);
+  animation:jelly .34s cubic-bezier(.3,1.4,.5,1);}
+@keyframes jelly{0%{transform:scale(1)}32%{transform:scale(.965)}66%{transform:scale(1.035)}100%{transform:scale(1)}}
+.opt.on::after{content:"♥";position:absolute;right:14px;top:11px;font-size:14px;color:var(--pink-d);
+  text-shadow:0 0 10px var(--pink);animation:pop .3s cubic-bezier(.3,1.5,.5,1) both;}
+@keyframes pop{from{transform:scale(0) rotate(-30deg)}to{transform:scale(1) rotate(0)}}
+.opt .k{flex:none;width:26px;height:26px;border-radius:9px;background:rgba(255,255,255,.06);
+  border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:var(--sub);transition:.18s;}
+.opt.on .k{background:var(--pink);border-color:var(--pink);color:#fff;box-shadow:0 2px 0 #A80C5F,0 0 12px rgba(255,46,154,.6);}
+.q-foot{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.link-btn{background:none;border:none;font-family:inherit;font-size:13px;color:var(--sub);
+  padding:12px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+.q-foot .btn{flex:1;margin:0;}
+ 
+/* ================= 扫描（霓虹解析感） ================= */
+.scan-card{text-align:center;padding:36px 22px 32px;}
+.scan-heart{display:flex;justify-content:center;margin-bottom:16px;animation:hb 1.1s ease-in-out infinite;
+  filter:drop-shadow(0 0 12px rgba(255,46,154,.75));}
+@keyframes hb{0%,100%{transform:scale(1)}40%{transform:scale(1.16)}70%{transform:scale(.98)}}
+.scan-txt{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;letter-spacing:4px;color:var(--cyan);
+  text-shadow:0 0 12px rgba(0,229,255,.7);}
+.cur{color:var(--pink);animation:blink .9s steps(1,end) infinite;}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.eq{display:flex;justify-content:center;align-items:flex-end;gap:5px;height:34px;margin:18px 0 14px;}
+.eq i{width:7px;height:8px;border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,var(--cyan),var(--violet) 55%,var(--pink));
+  box-shadow:0 0 8px rgba(0,229,255,.55);
+  animation:eqbar .9s ease-in-out infinite;}
+.eq i:nth-child(1){animation-delay:0s}.eq i:nth-child(2){animation-delay:.12s}
+.eq i:nth-child(3){animation-delay:.24s}.eq i:nth-child(4){animation-delay:.36s}
+.eq i:nth-child(5){animation-delay:.48s}.eq i:nth-child(6){animation-delay:.6s}
+.eq i:nth-child(7){animation-delay:.72s}
+@keyframes eqbar{0%,100%{height:8px}50%{height:32px}}
+.scan-bar{height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.5);}
+.scan-bar > i{display:block;height:100%;width:4%;border-radius:999px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet) 50%,var(--pink));
+  box-shadow:0 0 12px rgba(255,46,154,.7);
+  animation:scanfill 1.5s linear forwards;}
+@keyframes scanfill{from{width:4%}to{width:100%}}
+.scan-sub{font-size:12.5px;color:var(--sub);letter-spacing:.5px;}
+ 
+/* ================= 结果页 ================= */
+.r-hero{text-align:center;padding:30px 18px 26px;}
+.r-region{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:9.5px;letter-spacing:3.5px;
+  color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.6);margin-bottom:12px;}
+.r-name{display:flex;justify-content:center;align-items:center;min-height:60px;margin:0 0 4px;}
+.r-name img{image-rendering:pixelated;image-rendering:-moz-crisp-edges;max-width:100%;
+  filter:drop-shadow(0 0 12px rgba(255,46,154,.9)) drop-shadow(3px 4px 0 rgba(0,229,255,.85));
+  animation:namein .6s cubic-bezier(.2,.9,.3,1.4) both;}
+@keyframes namein{from{opacity:0;transform:scale(.7) rotate(-4deg)}to{opacity:1;transform:none}}
+.r-name-fb{font-size:32px;font-weight:800;letter-spacing:3px;color:#fff;
+  text-shadow:0 0 14px var(--pink),0 0 30px rgba(255,46,154,.6),3px 4px 0 rgba(0,229,255,.8);}
+.r-en{font-size:12.5px;color:var(--sub);letter-spacing:.5px;margin-bottom:14px;}
+.r-tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:20px;}
+.r-tags span{font-size:12px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,46,154,.35);color:#FFC7E6;font-weight:600;
+  box-shadow:0 0 10px rgba(255,46,154,.18);}
+.r-tags span:nth-child(2n){border-color:rgba(168,85,247,.4);color:#DCC6FF;background:rgba(168,85,247,.10);}
+.r-tags span:nth-child(3n){border-color:rgba(0,229,255,.4);color:#B7F2FF;background:rgba(0,229,255,.09);}
+ 
+.ring-wrap{display:flex;align-items:center;justify-content:center;gap:16px;}
+.ring{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  position:relative;background:conic-gradient(from -90deg,var(--pink) calc(var(--p) * 1%),rgba(255,255,255,.08) 0);
+  box-shadow:0 0 0 3px rgba(255,255,255,.10),0 0 24px rgba(255,46,154,.45);flex:none;}
+.ring::before{content:"";position:absolute;inset:8px;border-radius:50%;background:#150E28;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.6);}
+.ring span{position:relative;font-size:21px;font-weight:800;color:#fff;letter-spacing:-.5px;
+  text-shadow:0 0 12px rgba(255,46,154,.7);}
+.ring span i{font-size:11px;font-style:normal;font-weight:600;color:var(--sub);margin-left:1px;}
+.ring-label{text-align:left;font-size:13px;color:var(--sub);line-height:1.6;}
+.ring-label b{display:block;font-size:15px;color:var(--ink);font-weight:700;}
+ 
+.fly{position:absolute;bottom:78px;opacity:0;pointer-events:none;animation:fly 2.3s ease-out forwards;
+  filter:drop-shadow(0 0 8px currentColor);}
+@keyframes fly{0%{opacity:0;transform:translateY(0) scale(.5) rotate(0)}
+  14%{opacity:1;transform:translateY(-18px) scale(1.05) rotate(-8deg)}
+  100%{opacity:0;transform:translateY(-160px) scale(.9) rotate(14deg)}}
+ 
+.sec-title{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:2.5px;
+  color:var(--cyan);text-shadow:0 0 8px rgba(0,229,255,.45);margin:0 0 11px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:"";flex:1;height:0;border-top:2px dotted rgba(255,255,255,.18);}
+.profile{display:flex;flex-wrap:wrap;gap:8px;}
+.profile span{font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:11px;
+  background:rgba(255,255,255,.06);color:#D9CEF5;border:1.5px solid var(--line);
+  box-shadow:0 3px 10px rgba(0,0,0,.3);}
+ 
+.mix{margin-top:18px;}
+.mix-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.mix-n{flex:none;width:66px;font-size:11.5px;font-weight:700;letter-spacing:.5px;color:var(--ink2);}
+.mix-bar{flex:1;height:11px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.5);}
+.mix-bar > i{display:block;height:100%;border-radius:999px;width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--violet) 50%,var(--pink));
+  box-shadow:0 0 10px rgba(255,46,154,.5);
+  transition:width .9s cubic-bezier(.2,.9,.3,1);}
+.mix-p{flex:none;width:38px;text-align:right;font-size:11.5px;color:var(--sub);font-weight:600;}
+ 
+.blocks{margin-top:20px;}
+.block{border-radius:16px;padding:15px 16px;margin-bottom:11px;border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 4px 14px rgba(0,0,0,.35);}
+.block .bt{font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.block p{margin:0;font-size:14px;line-height:1.85;color:var(--ink2);}
+.b-hl{background:linear-gradient(180deg,rgba(255,46,154,.16),rgba(255,46,154,.05));}
+.b-hl .bt{color:#FF8FC8;text-shadow:0 0 10px rgba(255,46,154,.5);}
+.b-fit{background:linear-gradient(180deg,rgba(0,229,255,.14),rgba(0,229,255,.04));}
+.b-fit .bt{color:#7FE9FF;text-shadow:0 0 10px rgba(0,229,255,.45);}
+.b-bad{background:linear-gradient(180deg,rgba(168,85,247,.16),rgba(168,85,247,.05));}
+.b-bad .bt{color:#C9A6FF;text-shadow:0 0 10px rgba(168,85,247,.45);}
+ 
+.alt{display:flex;gap:10px;margin-top:4px;}
+.alt-c{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:16px;padding:14px 13px;
+  text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.3);}
+.alt-c .an{font-size:15px;font-weight:800;letter-spacing:1px;color:var(--ink);}
+.alt-c .ar{font-size:11px;color:var(--sub);margin-bottom:7px;}
+.alt-c .as{font-size:12px;color:var(--pink-d);font-weight:700;text-shadow:0 0 8px rgba(255,46,154,.5);}
+.alt-c .ad{font-size:12px;color:var(--sub);line-height:1.6;margin-top:6px;}
+ 
+.actions{margin-top:22px;display:flex;flex-direction:column;gap:11px;}
+.tip{margin-top:14px;font-size:12px;color:var(--sub);text-align:center;line-height:1.7;}
+.foot{text-align:center;font-size:11.5px;color:#6E6290;margin-top:26px;line-height:1.8;}
+.toast{position:fixed;left:50%;bottom:38px;transform:translateX(-50%) translateY(10px);z-index:60;
+  background:linear-gradient(180deg,#2A1B44,#180E2E);color:#fff;font-size:13px;padding:11px 20px;
+  border-radius:999px;opacity:0;pointer-events:none;transition:.28s;max-width:82%;text-align:center;
+  box-shadow:0 8px 26px rgba(0,0,0,.6),0 0 18px rgba(255,46,154,.3);border:1px solid rgba(255,46,154,.35);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+ 
+.reveal{animation:rise .55s cubic-bezier(.2,.9,.3,1.12) both;animation-delay:var(--d,0s);}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+ 
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
+</style>
+</head>
+<body>
+<div class="bgfx" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div>
+  <div class="pstar plus" style="top:14%;left:8%;animation-delay:0s"></div>
+  <div class="pstar" style="top:26%;right:12%;animation-delay:.6s"></div>
+  <div class="pstar plus" style="top:52%;left:6%;animation-delay:1.1s"></div>
+  <div class="pstar" style="top:70%;right:9%;animation-delay:.35s"></div>
+  <div class="pstar plus" style="top:84%;left:14%;animation-delay:1.5s"></div>
+  <div class="pstar" style="top:38%;right:5%;animation-delay:.9s"></div>
+  <div class="grain"></div>
+  <div class="scan"></div>
+</div>
+ 
+<div class="app">
+ 
+  <header class="topbar">
+    <div class="row">
+      <span class="rec"><i></i>REC</span>
+      <div class="tt">测测你是 A2O LITE 里的谁<span class="ts">YOUNG · HIMEKI · VORA · XILI · RADA · MERCI · AYUNE · OA · AIJING</span></div>
+    </div>
+  </header>
+ 
+  <div class="marquee" aria-hidden="true"><span>✦ A2O LITE ✦ NEON ✦ 27 PERSONAS ✦ ZALPHA POP ✦ YOUNG ✦ HIMEKI ✦ VORA ✦ XILI ✦ RADA ✦ MERCI ✦ AYUNE ✦ OA ✦ AIJING ✦ ✦ A2O LITE ✦ NEON ✦ 27 PERSONAS ✦ ZALPHA POP ✦ YOUNG ✦ HIMEKI ✦ VORA ✦ XILI ✦ RADA ✦ MERCI ✦ AYUNE ✦ OA ✦ AIJING ✦</span></div>
+ 
+  <!-- ============ COVER ============ -->
+  <section class="page" id="pg-cover">
+    <div class="card cover-card">
+      <div class="pxrow" id="pxrow"></div>
+      <span class="cover-kicker">A2O LITE · 人格测试</span>
+      <h1 class="cover-title">测测你是<br>A2O LITE 里的谁</h1>
+      <p class="cover-sub">九个人，九种颜色，你是哪一种光？</p>
+      <div class="cover-line"></div>
+      <p class="cover-intro">不是看脸，也不是玄学。<b>15 道题</b>聊聊你的性格、审美、舞台感和深夜状态，
+        再从 <b>9 位成员 × 3 种情境 = 27 个人格</b>里，找出和你最像的那一个。<br><br>
+        也许是练习室里死磕细节的淅沥，也许是舞台上一开口就安静的拉达——做完你就知道了。</p>
+      <div class="chips">
+        <span class="chip">15 道题</span>
+        <span class="chip">约 3 分钟</span>
+        <span class="chip">27 种人格</span>
+      </div>
+      <button class="btn btn-primary" id="btn-start">开始测试</button>
+      <p class="cover-note">无广告 · 不收集任何信息 · 结果可一键复制</p>
+    </div>
+  </section>
+ 
+  <!-- ============ QUIZ ============ -->
+  <section class="page hidden" id="pg-quiz">
+    <div class="card">
+      <div class="q-head">
+        <span class="q-num">QUESTION <b id="q-idx">01</b> / 15</span>
+        <span class="q-num" id="q-topic"></span>
+      </div>
+      <div class="bar"><i id="q-bar" style="width:6%"></i></div>
+      <h2 class="q-title" id="q-title"></h2>
+      <div id="q-opts"></div>
+      <div class="q-foot">
+        <button class="link-btn hidden" id="btn-prev">上一题</button>
+        <button class="btn btn-primary" id="btn-next" disabled>下一题</button>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ============ SCAN（录像带分析感过场） ============ -->
+  <section class="page hidden" id="pg-scan">
+    <div class="card scan-card">
+      <div class="scan-heart" id="scan-heart"></div>
+      <div class="scan-txt">ANALYZING<span class="cur">_</span></div>
+      <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="scan-bar"><i></i></div>
+      <div class="scan-sub">正在比对 27 个人格…</div>
+    </div>
+  </section>
+ 
+  <!-- ============ RESULT ============ -->
+  <section class="page hidden" id="pg-result">
+    <span class="sr" id="r-city"></span>
+ 
+    <div class="card r-hero reveal" id="r-hero" style="--d:0s">
+      <div class="r-region" id="r-region"></div>
+      <div class="r-name" id="r-name"></div>
+      <div class="r-en" id="r-en"></div>
+      <div class="r-tags" id="r-tags"></div>
+      <div class="ring-wrap">
+        <div class="ring" id="r-ring"><span id="r-score">0<i>%</i></span></div>
+        <div class="ring-label"><b id="r-sit"></b>和你最相似</div>
+      </div>
+    </div>
+ 
+    <div class="card reveal" style="--d:.12s;margin-top:14px;">
+      <div class="sec-title">你的性格关键词</div>
+      <div class="profile" id="r-profile"></div>
+ 
+      <div class="mix">
+        <div class="sec-title">你的 A2O LITE 成员底色</div>
+        <div id="r-mix"></div>
+      </div>
+    </div>
+ 
+    <div class="card blocks reveal" style="--d:.24s;margin-top:14px;">
+      <div class="block b-hl"><div class="bt">✨ 你给人的感觉</div><p id="r-hl"></p></div>
+      <div class="block b-fit"><div class="bt">🌿 你是这样的人</div><p id="r-fit"></p></div>
+      <div class="block b-bad"><div class="bt">💌 温柔提醒</div><p id="r-bad"></p></div>
+ 
+      <div class="sec-title" style="margin-top:20px;">和你也很像的两个人格</div>
+      <div class="alt" id="r-alt"></div>
+ 
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-copy">复制结果文案</button>
+        <button class="btn btn-ghost" id="btn-restart">重新测试</button>
+      </div>
+      <p class="tip">结果仅供参考，开心最重要 🫧</p>
+    </div>
+ 
+    <p class="foot">本测试为非官方粉丝向创作，与艺人及所属公司无关。<br>题目与文案均为原创，祝玩得开心。</p>
+  </section>
+ 
+</div>
+<div class="toast" id="toast"></div>
+ 
+ 
+<script>
+/* ==================================================================
+   1. 维度定义（换主题时改这里）
+   ================================================================== */
+const DIMS = [
+  {key:'energy', w:1.15, name:'外向活力', dict:[[30,'安静内敛'],[45,'慢热型'],[60,'动静适中'],[78,'开朗外放'],[101,'气氛担当']]},
+  {key:'sweet',  w:1.00, name:'清甜度',   dict:[[30,'偏酷冷淡'],[45,'干净清爽'],[60,'柔和温吞'],[78,'清甜可爱'],[101,'甜度满分']]},
+  {key:'lead',   w:1.30, name:'担当感',   dict:[[30,'随性跟随'],[45,'配合型'],[60,'能扛事'],[78,'主导型'],[101,'天生队长']]},
+  {key:'relax',  w:0.80, name:'松弛感',   dict:[[30,'认真紧绷'],[45,'有分寸'],[60,'收放自如'],[78,'松弛自在'],[101,'完全躺平']]},
+  {key:'emo',    w:1.20, name:'感性度',   dict:[[30,'理性淡定'],[45,'情绪稳定'],[60,'心思细腻'],[78,'共情力强'],[101,'感性到底']]},
+  {key:'style',  w:0.70, name:'风格感',   dict:[[30,'复古文艺'],[45,'舒服就好'],[60,'干净简约'],[78,'很有风格'],[101,'时髦先锋']]},
+  {key:'maknae', w:0.85, name:'年下感',   dict:[[30,'成熟姐姐感'],[45,'偏沉稳'],[60,'同龄感'],[78,'带点少年气'],[101,'忙内本内']]},
+  {key:'stage',  w:1.00, name:'舞台张力', dict:[[30,'安静旁观'],[45,'稳定输出'],[60,'进入状态'],[78,'全场焦点'],[101,'天生舞台体']]}
+];
+ 
+/* ==================================================================
+   2. 题目（15 题 × 4 选项，每个选项给出若干维度分值 0-100）
+   ================================================================== */
+const QUESTIONS = [
+  {q:'周末你最可能是怎么过的？', topic:'日常节奏', o:[
+    {t:'约朋友出门，逛逛吃吃拍照', v:{energy:88, sweet:72, lead:58, relax:66, emo:60, style:70, maknae:55, stage:62}},
+    {t:'在家躺着，刷剧刷手机一整天', v:{energy:18, sweet:58, lead:38, relax:92, emo:58, style:32, maknae:62, stage:22}},
+    {t:'一个人去咖啡店或书店待着', v:{energy:34, sweet:60, lead:48, relax:70, emo:68, style:62, maknae:40, stage:34}},
+    {t:'把自己安排满：练舞、上课、办事', v:{energy:66, sweet:44, lead:86, relax:20, emo:40, style:58, maknae:30, stage:84}}]},
+ 
+  {q:'朋友聚在一起时，你通常是？', topic:'社交方式', o:[
+    {t:'气氛担当，话最多、最爱闹', v:{energy:94, sweet:74, lead:62, relax:76, emo:56, style:60, maknae:58, stage:78}},
+    {t:'听着大家聊，偶尔丢一句金句', v:{energy:32, sweet:52, lead:50, relax:66, emo:70, style:66, maknae:42, stage:40}},
+    {t:'默默把事情安排好的那个人', v:{energy:48, sweet:56, lead:88, relax:34, emo:52, style:54, maknae:24, stage:66}},
+    {t:'玩到一半就想回家躺平', v:{energy:26, sweet:62, lead:34, relax:90, emo:54, style:40, maknae:66, stage:26}}]},
+ 
+  {q:'拍照的时候你更像哪种？', topic:'镜头感', o:[
+    {t:'表情丰富、动作很多、很会摆', v:{energy:86, sweet:78, lead:60, relax:62, emo:54, style:76, maknae:60, stage:82}},
+    {t:'淡淡一张，越酷越好', v:{energy:28, sweet:30, lead:56, relax:58, emo:40, style:88, maknae:44, stage:64}},
+    {t:'不太会摆，但笑得特别真', v:{energy:50, sweet:76, lead:42, relax:80, emo:66, style:34, maknae:58, stage:38}},
+    {t:'喜欢胶片感和复古滤镜', v:{energy:36, sweet:58, lead:46, relax:72, emo:74, style:18, maknae:38, stage:30}}]},
+ 
+  {q:'你的衣柜里最多的是？', topic:'审美偏好', o:[
+    {t:'甜甜的、有少女感的单品', v:{energy:64, sweet:92, lead:44, relax:70, emo:62, style:66, maknae:72, stage:52}},
+    {t:'简约基础款，舒服第一', v:{energy:42, sweet:50, lead:52, relax:84, emo:48, style:44, maknae:34, stage:32}},
+    {t:'有点设计感、别人没有的款', v:{energy:56, sweet:40, lead:62, relax:56, emo:52, style:94, maknae:46, stage:70}},
+    {t:'运动休闲，随时能动起来', v:{energy:78, sweet:46, lead:58, relax:68, emo:42, style:50, maknae:62, stage:80}}]},
+ 
+  {q:'听到一首很喜欢的歌，你的第一反应？', topic:'音乐反应', o:[
+    {t:'跟着哼、跟着动起来', v:{energy:90, sweet:74, lead:54, relax:72, emo:58, style:52, maknae:60, stage:70}},
+    {t:'循环播放，看歌词看到出神', v:{energy:24, sweet:62, lead:40, relax:62, emo:90, style:56, maknae:44, stage:34}},
+    {t:'立刻分享给朋友安利', v:{energy:76, sweet:70, lead:58, relax:66, emo:62, style:48, maknae:54, stage:56}},
+    {t:'研究编舞，想把它跳下来', v:{energy:62, sweet:42, lead:76, relax:24, emo:46, style:74, maknae:40, stage:96}}]},
+ 
+  {q:'压力很大的时候你会？', topic:'抗压方式', o:[
+    {t:'找人聊聊，说完就好多了', v:{energy:80, sweet:68, lead:46, relax:58, emo:66, style:48, maknae:56, stage:50}},
+    {t:'自己消化，不太想说出来', v:{energy:26, sweet:52, lead:58, relax:52, emo:78, style:62, maknae:36, stage:42}},
+    {t:'把事情列出来，一件件做完', v:{energy:52, sweet:48, lead:90, relax:18, emo:38, style:54, maknae:22, stage:68}},
+    {t:'先摆烂一阵，再重新开始', v:{energy:44, sweet:60, lead:32, relax:92, emo:56, style:38, maknae:70, stage:28}}]},
+ 
+  {q:'朋友最常怎么形容你？', topic:'他人印象', o:[
+    {t:'可靠、靠谱、能扛事', v:{energy:46, sweet:58, lead:92, relax:36, emo:50, style:52, maknae:18, stage:66}},
+    {t:'有趣、好笑、在一起很开心', v:{energy:88, sweet:76, lead:56, relax:78, emo:58, style:58, maknae:56, stage:72}},
+    {t:'温柔、细心、会照顾人', v:{energy:44, sweet:82, lead:54, relax:68, emo:80, style:46, maknae:48, stage:44}},
+    {t:'有个性、有点酷、猜不透', v:{energy:30, sweet:28, lead:60, relax:62, emo:46, style:92, maknae:42, stage:62}}]},
+ 
+  {q:'如果要在舞台上表演，你最想站在？', topic:'舞台位置', o:[
+    {t:'正中间，所有目光都在我身上', v:{energy:86, sweet:54, lead:84, relax:34, emo:48, style:82, maknae:52, stage:96}},
+    {t:'前排，把动作跳到最好', v:{energy:70, sweet:44, lead:70, relax:26, emo:44, style:76, maknae:44, stage:90}},
+    {t:'旁边一点，稳稳唱好就行', v:{energy:44, sweet:66, lead:48, relax:66, emo:68, style:50, maknae:40, stage:46}},
+    {t:'其实有点怕，但还是想试试', v:{energy:34, sweet:68, lead:36, relax:48, emo:76, style:44, maknae:68, stage:52}}]},
+ 
+  {q:'追星的时候你最在意什么？', topic:'追星偏好', o:[
+    {t:'舞台表现力和硬实力', v:{energy:62, sweet:40, lead:72, relax:30, emo:44, style:72, maknae:42, stage:92}},
+    {t:'性格和真实感', v:{energy:46, sweet:70, lead:50, relax:74, emo:76, style:44, maknae:50, stage:40}},
+    {t:'颜值和氛围感', v:{energy:60, sweet:84, lead:44, relax:72, emo:60, style:86, maknae:64, stage:54}},
+    {t:'努力和成长的过程', v:{energy:58, sweet:64, lead:66, relax:54, emo:72, style:52, maknae:58, stage:62}}]},
+ 
+  {q:'手机相册里最多的是什么？', topic:'生活痕迹', o:[
+    {t:'自拍和各种合照', v:{energy:78, sweet:84, lead:48, relax:70, emo:62, style:62, maknae:66, stage:56}},
+    {t:'风景、天空、路上的小东西', v:{energy:30, sweet:66, lead:42, relax:74, emo:82, style:40, maknae:38, stage:32}},
+    {t:'穿搭和镜子前的随手拍', v:{energy:58, sweet:62, lead:56, relax:60, emo:50, style:90, maknae:52, stage:66}},
+    {t:'练习、翻跳、舞台的截图', v:{energy:64, sweet:44, lead:74, relax:26, emo:46, style:70, maknae:44, stage:94}}]},
+ 
+  {q:'深夜一个人的时候，你通常？', topic:'深夜状态', o:[
+    {t:'刷手机到停不下来', v:{energy:48, sweet:58, lead:34, relax:86, emo:58, style:40, maknae:68, stage:30}},
+    {t:'想很多，容易 emo', v:{energy:22, sweet:54, lead:40, relax:56, emo:94, style:46, maknae:48, stage:38}},
+    {t:'把明天的事想清楚再睡', v:{energy:40, sweet:50, lead:84, relax:28, emo:42, style:54, maknae:26, stage:60}},
+    {t:'听着歌发呆，什么都不想', v:{energy:26, sweet:62, lead:38, relax:80, emo:78, style:52, maknae:54, stage:34}}]},
+ 
+  {q:'和别人有分歧时，你会？', topic:'人际边界', o:[
+    {t:'直接说出来，当场讲清', v:{energy:84, sweet:44, lead:74, relax:46, emo:44, style:60, maknae:46, stage:72}},
+    {t:'先顺着，回头再表达', v:{energy:40, sweet:66, lead:44, relax:80, emo:66, style:48, maknae:56, stage:40}},
+    {t:'讲道理，把事情捋顺', v:{energy:52, sweet:46, lead:82, relax:36, emo:34, style:56, maknae:30, stage:58}},
+    {t:'不太想争，算了就好', v:{energy:28, sweet:70, lead:30, relax:88, emo:60, style:42, maknae:62, stage:28}}]},
+ 
+  {q:'学一件新东西（比如一段舞）时，你更像？', topic:'做事风格', o:[
+    {t:'一遍遍抠细节，直到标准', v:{energy:54, sweet:46, lead:78, relax:20, emo:44, style:66, maknae:34, stage:88}},
+    {t:'灵感型，状态来了就猛做', v:{energy:62, sweet:56, lead:52, relax:68, emo:68, style:80, maknae:52, stage:64}},
+    {t:'有人一起才做得下去', v:{energy:76, sweet:72, lead:44, relax:70, emo:62, style:46, maknae:64, stage:52}},
+    {t:'拖到最后一刻爆发奇迹', v:{energy:58, sweet:60, lead:38, relax:90, emo:54, style:44, maknae:72, stage:46}}]},
+ 
+  {q:'别人不知道的那一面，你更像哪种？', topic:'反差面', o:[
+    {t:'看起来很乖，其实很有主见', v:{energy:48, sweet:72, lead:86, relax:44, emo:58, style:58, maknae:40, stage:64}},
+    {t:'看起来很酷，其实很柔软', v:{energy:32, sweet:66, lead:52, relax:60, emo:86, style:76, maknae:44, stage:46}},
+    {t:'看起来很开朗，其实很怕孤单', v:{energy:82, sweet:70, lead:48, relax:52, emo:88, style:54, maknae:58, stage:60}},
+    {t:'看起来很随性，其实超较真', v:{energy:56, sweet:48, lead:76, relax:30, emo:50, style:64, maknae:38, stage:78}}]},
+ 
+  {q:'你最希望被别人记住的样子是？', topic:'自我期待', o:[
+    {t:'那个让人安心的人', v:{energy:42, sweet:68, lead:88, relax:46, emo:62, style:50, maknae:24, stage:58}},
+    {t:'那个带来快乐的人', v:{energy:90, sweet:80, lead:58, relax:76, emo:60, style:56, maknae:60, stage:74}},
+    {t:'那个一站上台就发光的人', v:{energy:74, sweet:52, lead:72, relax:40, emo:48, style:88, maknae:54, stage:98}},
+    {t:'那个真实、不装的自己', v:{energy:50, sweet:64, lead:46, relax:82, emo:70, style:42, maknae:50, stage:44}}]}
+];
+ 
+/* ==================================================================
+   3. 结果池：9 位成员 × 3 种情境 = 27 个人格
+   结果向量 = 成员底色 + 情境偏移
+   ================================================================== */
+const MEMBERS = {
+  young: {n:'YOUNG', cn:'时英', v:{energy:45, sweet:66, lead:89, relax:30, emo:55, style:62, maknae:8, stage:70}},
+  himeki: {n:'HIMEKI', cn:'姬希', v:{energy:32, sweet:54, lead:39, relax:77, emo:66, style:76, maknae:41, stage:42}},
+  vora: {n:'VORA', cn:'恩智', v:{energy:74, sweet:40, lead:68, relax:60, emo:36, style:85, maknae:47, stage:96}},
+  xili: {n:'XILI', cn:'淅沥', v:{energy:67, sweet:48, lead:82, relax:20, emo:55, style:80, maknae:32, stage:96}},
+  rada: {n:'RADA', cn:'拉达', v:{energy:59, sweet:73, lead:39, relax:68, emo:96, style:50, maknae:48, stage:67}},
+  merci: {n:'MERCI', cn:'西桐', v:{energy:73, sweet:71, lead:57, relax:70, emo:50, style:76, maknae:49, stage:69}},
+  ayune: {n:'AYUNE', cn:'雅允', v:{energy:48, sweet:83, lead:33, relax:92, emo:71, style:81, maknae:93, stage:45}},
+  oa: {n:'OA', cn:'欧雅', v:{energy:49, sweet:71, lead:82, relax:44, emo:52, style:91, maknae:73, stage:93}},
+  aijing: {n:'AIJING', cn:'艾敬', v:{energy:83, sweet:70, lead:66, relax:32, emo:41, style:77, maknae:92, stage:96}}
+};
+ 
+const SITS = [
+  {key:'practice', label:'练习室', en:'PRACTICE ROOM', d:{energy:-10, sweet:-4, lead:10,  relax:-20, emo:4, style:-10, maknae:-4, stage:6}},
+  {key:'stage',    label:'舞台',   en:'ON STAGE',      d:{energy:18,  sweet:4,  lead:12,  relax:-12, emo:4, style:14,  maknae:0,  stage:22}},
+  {key:'daily',    label:'日常',   en:'OFF DUTY',      d:{energy:-8,  sweet:12, lead:-14, relax:24,  emo:8, style:-14, maknae:4,  stage:-24}}
+];
+ 
+/* 27 段小红书风格文案：[标签×3, 你给人的感觉, 你是这样的人, 温柔提醒] */
+const COPY = {
+  'young-practice': [['默默加练','动作最标准','不喊累'],
+    '你身上有一种安静的可靠感：不张扬、不抢镜，但每次回头看，你都还在原地稳稳地站着。这种不声不响的坚持，比任何宣言都有分量。',
+    '你是那种把目标写在本子上、再一条条划掉的人。不太需要别人推着走，因为发令枪本来就握在自己手里。',
+    '只是别把"我可以"当成必须。偶尔说一句有点累，不会让你变得不可靠，反而会让身边的人更敢靠近你。'],
+ 
+  'young-stage': [['定海神针','稳得离谱','撑住全场'],
+    '越是人多、越是紧要的场合，你反而越稳。别人慌的时候你还在按自己的节奏呼吸——那种"交给你没问题"的信任感，是你最值钱的东西。',
+    '你不靠炸场赢人，靠的是从不掉链子。适合当那个最后把关的人，也适合被托付真正重要的事。',
+    '但稳久了容易把自己绷得太紧。允许自己失误一次，天不会塌，你也不需要为所有人的情绪负责。'],
+ 
+  'young-daily': [['反差最大','私下软乎乎','姐姐外壳'],
+    '台下那个会把零食分给别人、会记得谁不吃香菜的，也是你。你不是一直都那么"大姐"，只是习惯了先照顾别人。',
+    '你是朋友圈里默认的那个稳定器，大家都习惯找你，却常常忘了问一句你过得怎么样。',
+    '试着把"我来吧"换成"这次你来"。被照顾不是亏欠，你也值得被接住一次。'],
+ 
+  'himeki-practice': [['慢慢来','手感派','不着急'],
+    '你有一种不慌不忙的质感，像温水。别人急着往前冲，你宁愿先把一件事摸透、摸熟，摸到身体自己记住为止。',
+    '适合那种需要耐心和手感的事。你相信重复的意义，也不怕慢，因为你知道慢的东西反而留得久。',
+    '只是有时候会把"再等等"拖成"算了"。想做的事，给自己定一个开始的小日子，别只停在准备阶段。'],
+ 
+  'himeki-stage': [['清透感','安静的锋利','越看越有'],
+    '你不是第一眼最炸的那个，但镜头扫过你的时候，整个人是干净的、通透的，会让人忍不住多看两秒。',
+    '适合做细节型选手：一个眼神、一个尾音、一个收手，懂的人自然会被你勾住。',
+    '别因为不够外放就怀疑自己没有存在感。你的好是慢热的，要留给愿意慢慢看的人。'],
+ 
+  'himeki-daily': [['独处充电','小世界','温柔边界'],
+    '你的能量是向内收的。热闹结束之后，你需要一段完全属于自己的时间，把散出去的自己一点点捡回来。',
+    '适合有固定小爱好的生活：一杯茶、一段路、一个播客。不需要很多人，但要够安静。',
+    '一个人待久了容易把邀约都推掉。偶尔还是出门一次吧，你其实很喜欢那种"还好来了"的瞬间。'],
+ 
+  'vora-practice': [['利落','节奏感','不废话'],
+    '你做事有一种干脆的线条感：不拖泥带水，不多解释，把力气全用在关键的那一下上。',
+    '适合需要判断和手速的事。你讨厌冗长的铺垫，更喜欢"先做，做完再说"。',
+    '但干脆久了，别人会读不到你的情绪。偶尔多说半句，大家会更知道你在想什么。'],
+ 
+  'vora-stage': [['帅','卡点精准','全场焦点'],
+    '你的表达是往外放的：动作干净、卡点死准，站在那里就自带一种"看我"的气场。',
+    '适合站在需要冲击力的位置。你天生知道怎么在一瞬间把注意力抓过来。',
+    '只是锋利的东西容易伤到别人，也伤到自己。收一点棱角不是变钝，是更耐用。'],
+ 
+  'vora-daily': [['反差萌','私下很随性','懒得营业'],
+    '台上越酷的人，台下往往越随意。你的私下大概是一件宽T恤、一个丸子头，什么都不想营业。',
+    '你不太喜欢被期待绑住，更想要"我想做就做"的自由。',
+    '但完全不解释，有时会被误会成冷淡。一句"我今天有点累"，就能省掉很多猜测。'],
+ 
+  'xili-practice': [['死磕细节','练到标准','较真'],
+    '你对"差不多"这三个字过敏。一个动作可以练到身体记住，一个细节可以抠到别人看不出来、但你自己知道。',
+    '适合需要长期打磨的事。你的成长曲线不是爆发型的，是一天天垫起来的，所以特别结实。',
+    '只是别拿别人的进度惩罚自己。你已经走得很快了，允许自己有一次"就这样吧"。'],
+ 
+  'xili-stage': [['锋利','力量感','动作会说话'],
+    '你的舞台是有棱角的：发力干脆、收放果断，看得人有一种被划开的清爽感。',
+    '适合需要技术和力量支撑的位置。你不是靠可爱赢的，是靠"我真的会"。',
+    '但过度控制会让人看不见你的情绪。技术到顶之后，试着把一点心事也放进去。'],
+ 
+  'xili-daily': [['慢热','认生','熟了很疯'],
+    '你不是不好相处，只是需要时间。刚认识时话很少，熟了之后可能是最闹的那个。',
+    '适合小而深的关系：不用很多朋友，但几个是真的。',
+    '别因为慢热就觉得自己不讨喜。愿意等你打开的人，才是值得留下的。'],
+ 
+  'rada-practice': [['开嗓就稳','天赋型','声音有光'],
+    '你身上有一种老天赏饭吃的味道：别人费劲够到的东西，你好像轻轻一抬手就碰到了。',
+    '适合靠感受力驱动的事。你不太靠硬扛，更多是顺着感觉走，反而走得更远。',
+    '但天赋最怕被浪费。找到一件你愿意长期投入的事，别让"还行"变成"就这样了"。'],
+ 
+  'rada-stage': [['高音','情绪浓度','一开口就安静'],
+    '你的表达是有温度的：不炫技，但一开口就能把人按住。那种真诚比完美更打动人。',
+    '适合做需要共情的事。你天然知道怎么把情绪送出去，让听的人也跟着颤一下。',
+    '只是太共情容易累。唱完记得把自己也哄一哄，别把情绪都留给别人。'],
+ 
+  'rada-daily': [['柔软','慢半拍','会被小事打动'],
+    '你很容易被小事击中：一句歌词、一阵风、一个路边画面，都能让你停一下。',
+    '适合有音乐和留白的生活。不需要太多安排，但要有情绪能流动的空间。',
+    '别把敏感当成缺点。它让你更容易受伤，也让你比别人更容易被治愈。'],
+ 
+  'merci-practice': [['讨喜','学得快','人缘好'],
+    '你有一种天然让人喜欢的能力：不是刻意讨好，而是你本身就很舒服，待在你旁边的人会自动放松下来。',
+    '适合需要和人打交道的事。你的存在本身就能降低气氛的硬度。',
+    '但太好说话容易把自己排在最后。练习说"这次我不想"，是你的必修课。'],
+ 
+  'merci-stage': [['甜','氛围担当','镜头友好'],
+    '你的甜不是装的，是从眼神里溢出来的那种。别人看你的时候，心情会自动变好一点。',
+    '适合站在需要亲和力的位置。你不需要用力，做自己就很讨喜。',
+    '只是别让"大家都喜欢"变成负担。你可以不甜，也可以偶尔不笑。'],
+ 
+  'merci-daily': [['小确幸','爱吃','情绪直接'],
+    '你的快乐和难过都写在脸上，喜欢就说喜欢，不开心也藏不住两分钟。这种直接其实很珍贵。',
+    '适合简单明亮的生活：好吃的、好看的、好笑的，就够了。',
+    '只是情绪来得太快时，先深呼吸三秒。很多话晚三秒再说，结果会完全不一样。'],
+ 
+  'ayune-practice': [['软','被照顾着','也在努力'],
+    '你看起来是被大家捧着的那个，但你自己的那一份努力从来没少过，只是不太会拿出来讲。',
+    '适合被鼓励着长大。你不是不独立，只是有人兜底的时候，你敢走得更远一点。',
+    '别因为年纪小就默认自己不够格。你的感受和别人的一样重要，可以说得大声一点。'],
+ 
+  'ayune-stage': [['小太阳','灵','一眼记住'],
+    '你身上有一种"刚刚好"的灵气：不用力、不刻意，却总能让人第一眼就记住。',
+    '适合做被看见但不被消耗的事。你的好需要被保护，而不是被透支。',
+    '只是被喜欢久了会怕失去。记住：真正留下的人喜欢的是你这个人，不是你的乖。'],
+ 
+  'ayune-daily': [['黏人','爱撒娇','需要回应'],
+    '你需要被回应。一句"我在"、一个已读，就能让你安心很久——这不是矫情，是你的安全感来源。',
+    '适合有稳定陪伴的生活。你不太能忍受忽冷忽热，确定感对你很重要。',
+    '但别把自我价值挂在别人的回复速度上。你本身就值得被喜欢，不用靠秒回来证明。'],
+ 
+  'oa-practice': [['中心感','审美在线','概念体'],
+    '你身上有一种整体感：不是单项最突出，但所有东西到了你身上会自动变得协调、成立。',
+    '适合做需要审美和判断的事。你天生知道什么放在一起是对的。',
+    '只是太在意"整体对不对"，容易把自己的需求排在后面。你也是画面的一部分。'],
+ 
+  'oa-stage': [['C位','镜头锁死','说不清的魅力'],
+    '你的存在感很难解释：不是最吵，也不是最炫，但镜头就是会往你那边偏。这种气质学不来。',
+    '适合站在中心。你不需要争，站那儿就是焦点。',
+    '但被注视久了会累。记得给自己留一块没有镜头的空地，那里才是你真正喘气的地方。'],
+ 
+  'oa-daily': [['安静的神秘','有距离','熟了才懂'],
+    '你不太会主动靠近人，但一旦被走近，会发现里面其实很热闹——只是你习惯先把门关着。',
+    '适合有边界感的关系。你需要被尊重距离，也需要有人不怕敲门。',
+    '偶尔自己把门开一条缝吧。不是所有人都值得进来，但总有人值得。'],
+ 
+  'aijing-practice': [['年纪小但狠','冲劲','练最晚'],
+    '你的能量是往前冲的：别人还在犹豫要不要开始，你已经练完三轮了。这种冲劲是你最锋利的武器。',
+    '适合高强度、快反馈的事。你在"被看见"里会越长越快。',
+    '只是冲太快容易忘记照顾身体。休息不是偷懒，是为了能冲得更久。'],
+ 
+  'aijing-stage': [['星味','天生舞台体','一出场就亮'],
+    '你一站上去，整个场子会自动亮一格。不是因为你努力地表现，而是你本来就属于那里。',
+    '适合大场面。越多人看你，你越兴奋；压力在你这里会变成燃料。',
+    '只是别把"必须完美"压在自己身上。你失误的时候，大家反而更喜欢你一点。'],
+ 
+  'aijing-daily': [['忙内感','会被宠','也会想家'],
+    '你是那种被大家宠着、也会偷偷想家的人。外面再亮，回到房间还是想给妈妈发条消息。',
+    '适合有人兜底、也有空间往前跑的状态。你需要被托住，但更想自己飞。',
+    '别急着证明自己已经长大。慢慢来，属于你的位置不会跑掉。']
+};
+ 
+/* 27 个结果的坐标微调（由 _tune.js 自动调优写入，勿手改） */
+const TWEAK = {"young-practice":{"energy":0,"sweet":0,"lead":-1,"relax":1,"emo":0,"style":0,"maknae":3,"stage":0},"young-stage":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0,"stage":0},"young-daily":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":3,"stage":1},"himeki-practice":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0,"stage":0},"himeki-stage":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":4,"maknae":0,"stage":0},"himeki-daily":{"energy":3,"sweet":0,"lead":3,"relax":-4,"emo":0,"style":0,"maknae":0,"stage":4},"vora-practice":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0,"stage":0},"vora-stage":{"energy":-6,"sweet":5,"lead":-3,"relax":0,"emo":5,"style":-5,"maknae":0,"stage":-6},"vora-daily":{"energy":-1,"sweet":4,"lead":2,"relax":-7,"emo":4,"style":0,"maknae":0,"stage":0},"xili-practice":{"energy":0,"sweet":-3,"lead":4,"relax":-4,"emo":0,"style":0,"maknae":-4,"stage":3},"xili-stage":{"energy":2,"sweet":0,"lead":3,"relax":-4,"emo":0,"style":1,"maknae":-1,"stage":1},"xili-daily":{"energy":0,"sweet":-4,"lead":0,"relax":-4,"emo":0,"style":-4,"maknae":-7,"stage":0},"rada-practice":{"energy":1,"sweet":0,"lead":4,"relax":0,"emo":-6,"style":6,"maknae":1,"stage":0},"rada-stage":{"energy":-4,"sweet":-1,"lead":3,"relax":0,"emo":-7,"style":1,"maknae":0,"stage":-3},"rada-daily":{"energy":0,"sweet":0,"lead":3,"relax":-3,"emo":-3,"style":3,"maknae":0,"stage":1},"merci-practice":{"energy":4,"sweet":0,"lead":3,"relax":0,"emo":-7,"style":-4,"maknae":-7,"stage":0},"merci-stage":{"energy":1,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0,"stage":0},"ayune-practice":{"energy":-1,"sweet":0,"lead":-1,"relax":0,"emo":0,"style":0,"maknae":4,"stage":-1},"ayune-stage":{"energy":0,"sweet":0,"lead":0,"relax":4,"emo":0,"style":1,"maknae":4,"stage":0},"ayune-daily":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0,"stage":0},"oa-practice":{"energy":5,"sweet":0,"lead":-7,"relax":7,"emo":1,"style":-1,"maknae":-4,"stage":-5},"oa-stage":{"energy":0,"sweet":0,"lead":-4,"relax":4,"emo":0,"style":-4,"maknae":-4,"stage":-4},"oa-daily":{"energy":4,"sweet":-3,"lead":0,"relax":-4,"emo":0,"style":0,"maknae":-5,"stage":0},"aijing-practice":{"energy":-4,"sweet":0,"lead":-3,"relax":9,"emo":4,"style":0,"maknae":-9,"stage":-6},"aijing-stage":{"energy":-5,"sweet":0,"lead":-1,"relax":4,"emo":3,"style":-3,"maknae":-5,"stage":-4},"aijing-daily":{"energy":2,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":5,"stage":0}};
+ 
+/* 由成员底色 × 情境偏移生成 27 个结果 */
+const clamp = function(x){ return Math.max(0, Math.min(100, Math.round(x))); };
+const CITIES = [];
+Object.keys(MEMBERS).forEach(function(mk){
+  const m = MEMBERS[mk];
+  SITS.forEach(function(s){
+    const v = {};
+    const tw = TWEAK[mk + '-' + s.key] || {};
+    DIMS.forEach(function(d){
+      v[d.key] = clamp(m.v[d.key] + s.d[d.key] + (tw[d.key] || 0));
+    });
+    const cp = COPY[mk + '-' + s.key];
+    CITIES.push({
+      zone: mk, member: m.n, memberCn: m.cn, sit: s.label, sitEn: s.en, sitKey: s.key,
+      name: m.n + '·' + s.label, loc: s.label + '里的 ' + m.n,
+      v: v, tags: cp[0], hl: cp[1], fit: cp[2], bad: cp[3]
+    });
+  });
+});
+ 
+/* ==================================================================
+   4. 通用计算引擎（换主题不用改）
+   ================================================================== */
+let answers = new Array(QUESTIONS.length).fill(-1);
+let cur = 0;
+ 
+const $ = function(id){return document.getElementById(id);};
+const toastEl = $('toast');
+let toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){toastEl.classList.remove('show');}, 2000);
+}
+ 
+/* 4.0 分布校准表（由校准脚本自动生成，勿手改）
+   UQ = 用户原始得分的分位点；CQ = 结果池坐标的分位点
+   为什么需要：用户得分是多题平均值，天然向中间收敛；直接与铺满 0-100 的结果池比距离，
+   会导致边缘人格永远匹配不上。分位数映射把用户分布对齐到结果池分布，解决退化问题。 */
+const UQ = {"energy":[37,46.6,48.3,49.4,50.4,51.2,51.9,52.6,53.2,53.9,54.5,55.1,55.7,56.4,57.2,57.9,58.8,59.8,61,62.8,74.9],"sweet":[47.1,54.8,56.1,56.9,57.6,58.1,58.6,59.1,59.6,60,60.4,60.8,61.3,61.7,62.2,62.7,63.2,63.9,64.7,65.9,72.7],"lead":[44,51,52.4,53.4,54.1,54.8,55.4,56,56.6,57.1,57.6,58.1,58.7,59.3,59.8,60.5,61.2,62.1,63.1,64.6,74.3],"relax":[39.5,50.9,52.8,54.1,55.1,55.9,56.8,57.5,58.2,58.8,59.4,60.1,60.7,61.4,62.1,62.8,63.6,64.5,65.7,67.3,76.4],"emo":[47.2,54.2,55.4,56.2,56.8,57.4,57.9,58.4,58.8,59.3,59.7,60.1,60.5,61,61.5,62,62.5,63.2,64,65.2,73.1],"style":[44.3,51.7,53.1,54,54.7,55.4,56,56.5,57,57.5,58,58.5,59,59.6,60.2,60.8,61.5,62.2,63.2,64.6,73],"maknae":[35.5,43.4,44.7,45.5,46.1,46.7,47.2,47.7,48.1,48.5,49,49.4,49.8,50.3,50.7,51.2,51.7,52.4,53.1,54.3,60.4],"stage":[40.1,50.1,51.8,52.9,53.8,54.6,55.3,56,56.6,57.2,57.8,58.5,59.1,59.7,60.3,61.1,61.9,62.8,64.1,65.8,75.7]};
+const CQ = {"energy":[22,29.4,36.2,37,40.8,44.5,49,50.1,53.4,58.4,63,64.3,65,65.9,67,68,72.2,77.9,86.4,90.5,96],"sweet":[36,43.4,49.6,51.8,56,57,61.2,66,66.4,67,69,71.2,74.6,75,76.4,78.5,79.8,82.1,83.8,86.4,95],"lead":[19,28,36.4,42.9,45.8,50,51.8,53.1,54.8,64.4,68,69.3,71.8,74.8,77,77.5,83.6,90.6,96.4,97.7,100],"relax":[0,6.1,15.2,20.7,25.4,33.5,39.2,40.8,48,49.4,54,56,56.6,57.9,64.2,68.5,76,84.5,91,96.1,100],"emo":[40,45.6,47.6,48,49,51.5,55.6,57.1,58.4,59,59,59.3,61.8,63,70,72,74.8,75.4,84.6,93.7,100],"style":[39,46.6,50.4,61,62,62,62.8,65.1,66.4,67,70,71,73.4,75.9,77.6,84,89.6,94,94.4,95.7,100],"maknae":[7,10.1,20.4,28.5,32.2,37.5,40.4,43.2,45,46.4,48,49.6,51.6,52.9,65.8,70.5,77.6,87.6,94.6,97,100],"stage":[21,28.6,44.6,46.8,48.4,57,66.4,69.3,72,72,73,75.3,82,90.5,92.4,95,99.2,100,100,100,100]};
+const PSEG = UQ.energy.length - 1;
+ 
+function calibrate(key, raw){
+  const U = UQ[key], C = CQ[key];
+  if(raw <= U[0]) return C[0];
+  if(raw >= U[PSEG]) return C[PSEG];
+  let i = 0;
+  while(i < PSEG && U[i+1] < raw) i++;
+  const span = U[i+1] - U[i];
+  const pos = i + (span > 0.0001 ? (raw - U[i]) / span : 1);
+  const j = Math.min(PSEG - 1, Math.floor(pos));
+  return C[j] + (C[j+1] - C[j]) * (pos - j);
+}
+ 
+/* 4.1 用户偏好向量 */
+function buildUserVector(){
+  const acc = {}, sum = {};
+  DIMS.forEach(function(d){acc[d.key]=0; sum[d.key]=0;});
+  answers.forEach(function(ai, qi){
+    if(ai < 0) return;
+    const v = QUESTIONS[qi].o[ai].v || {};
+    const weight = 1 + (qi >= QUESTIONS.length - 3 ? 0.15 : 0);
+    DIMS.forEach(function(d){
+      if(typeof v[d.key] === 'number'){
+        acc[d.key] += v[d.key] * weight;
+        sum[d.key] += weight;
+      }
+    });
+  });
+  const out = {};
+  DIMS.forEach(function(d){
+    const raw = sum[d.key] ? acc[d.key]/sum[d.key] : 50;
+    out[d.key] = calibrate(d.key, raw);
+  });
+  return out;
+}
+ 
+/* 4.2 距离 → 契合度百分制 */
+function scoreCity(uv, city){
+  let sum = 0, wsum = 0;
+  DIMS.forEach(function(d){
+    const diff = uv[d.key] - city.v[d.key];
+    sum += d.w * diff * diff;
+    wsum += d.w;
+  });
+  const rms = Math.sqrt(sum / wsum);
+  return Math.max(52, Math.min(99, Math.round(100 - rms * 1.25)));
+}
+ 
+/* 4.3 画像标签：取偏离中间值最大的 4 个维度 */
+function profileTags(uv){
+  return DIMS.map(function(d){
+    return {dev:Math.abs(uv[d.key]-50), name:labelOf(d.dict, uv[d.key])};
+  }).sort(function(a,b){return b.dev-a.dev;}).slice(0,4).map(function(x){return x.name;});
+}
+function labelOf(dict, val){
+  for(let i=0;i<dict.length;i++){ if(val < dict[i][0]) return dict[i][1]; }
+  return dict[dict.length-1][1];
+}
+ 
+/* 4.4 成员底色分布：取前 6 个结果按名次加权，归到所属成员 */
+const MIX_W = [12, 9, 7, 5, 4, 3, 2, 1, 1];
+function memberMix(ranked){
+  const acc = {};
+  Object.keys(MEMBERS).forEach(function(k){ acc[MEMBERS[k].n] = 0; });
+  let total = 0;
+  ranked.slice(0, MIX_W.length).forEach(function(r, i){
+    acc[r.c.member] += MIX_W[i];
+    total += MIX_W[i];
+  });
+  return Object.keys(acc).map(function(k){
+    return {name:k, pct: Math.round(acc[k] / total * 100)};
+  }).sort(function(a,b){return b.pct - a.pct;});
+}
+ 
+/* ================= 像素艺术 / Y2K 视觉辅助 ================= */
+const PX = {
+  heart :['.##.##.','#######','#######','.#####.','..###..','...#...'],
+  star  :['...#...','...#...','..###..','#######','..###..','...#...','...#...'],
+  flower:['.#.#.','#####','#####','.###.','..#.'],
+  cloud :['..###....','.#####...','#########','.#######.','..#####..'],
+  note  :['..##.','.####','.####','.#..#','.#..#','##..#','##...']
+};
+function pxArt(rows, color, unit){
+  let rects = '', w = 0;
+  rows.forEach(function(line, y){
+    if(line.length > w) w = line.length;
+    for(let x = 0; x < line.length; x++){
+      const ch = line[x];
+      if(ch !== '.' && ch !== ' ') rects += '<rect x="' + (x*unit) + '" y="' + (y*unit) + '" width="' + unit + '" height="' + unit + '"/>';
+    }
+  });
+  return '<svg viewBox="0 0 ' + (w*unit) + ' ' + (rows.length*unit) + '" width="' + (w*unit) +
+         '" height="' + (rows.length*unit) + '" shape-rendering="crispEdges" fill="' + color + '">' + rects + '</svg>';
+}
+/* 把拉丁文成员名画成真正的像素字：小画布绘制 → 最近邻放大 */
+function pixelName(text){
+  try{
+    const S = 3, FS = 16, FONT = '800 ' + FS + 'px "Courier New",monospace';
+    const c = document.createElement('canvas');
+    let g = c.getContext('2d');
+    g.font = FONT;
+    const w = Math.ceil(g.measureText(text).width) + 4, h = FS + 8;
+    c.width = w; c.height = h;
+    g = c.getContext('2d');
+    g.font = FONT; g.textBaseline = 'top'; g.fillStyle = '#FFFFFF';
+    g.shadowColor = '#FF2E9A'; g.shadowBlur = 10;
+    g.fillText(text, 2, 3);
+    const o = document.createElement('canvas');
+    o.width = w * S; o.height = h * S;
+    const og = o.getContext('2d');
+    og.imageSmoothingEnabled = false;
+    og.drawImage(c, 0, 0, w, h, 0, 0, w*S, h*S);
+    return o.toDataURL('image/png');
+  }catch(e){ return null; }
+}
+/* 结果页飘心 */
+function burst(host){
+  try{
+    for(let i = 0; i < 7; i++){
+      const s = document.createElement('span');
+      s.className = 'fly';
+      s.innerHTML = pxArt(PX.heart, i % 2 ? '#FF2E9A' : '#00E5FF', 3);
+      s.style.left = (10 + Math.random() * 78) + '%';
+      s.style.animationDelay = (i * 0.1) + 's';
+      host.appendChild(s);
+      setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 2700 + i * 100);
+    }
+  }catch(e){}
+}
+/* 匹配度数字滚动 */
+function countUp(el, to){
+  try{
+    let n = 0; const step = Math.max(1, Math.round(to / 26));
+    el.innerHTML = '0<i>%</i>';
+    const t = setInterval(function(){
+      n += step;
+      if(n >= to){ n = to; clearInterval(t); }
+      el.innerHTML = n + '<i>%</i>';
+    }, 26);
+  }catch(e){ try{ el.innerHTML = to + '<i>%</i>'; }catch(e2){} }
+}
+/* 重放结果页进场动画（重新测试后再出结果时生效） */
+function replayReveal(){
+  try{
+    const els = document.querySelectorAll('#pg-result .reveal');
+    for(let i = 0; i < els.length; i++){
+      els[i].classList.remove('reveal');
+      void els[i].offsetWidth;
+      els[i].classList.add('reveal');
+    }
+  }catch(e){}
+}
+ 
+/* 封面像素装饰 + 扫描页心跳 */
+try{
+  const pr = $('pxrow');
+  if(pr) pr.innerHTML = pxArt(PX.heart,'#FF2E9A',3) + pxArt(PX.star,'#00E5FF',3) + pxArt(PX.heart,'#C8FF4D',3);
+  const sh = $('scan-heart');
+  if(sh) sh.innerHTML = pxArt(PX.heart,'#FF2E9A',5);
+}catch(e){}
+ 
+/* ---------- 页面渲染 ---------- */
+function renderQuestion(){
+  const q = QUESTIONS[cur];
+  $('q-idx').textContent = String(cur+1).padStart(2,'0');
+  $('q-topic').textContent = q.topic ? '# ' + q.topic : '';
+  $('q-title').textContent = q.q;
+  $('q-bar').style.width = Math.round((cur+1)/QUESTIONS.length*100) + '%';
+  $('btn-prev').classList.toggle('hidden', cur === 0);
+  $('btn-next').textContent = (cur === QUESTIONS.length-1) ? '看看我是谁' : '下一题';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.o.forEach(function(opt, i){
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[cur] === i ? ' on' : '');
+    b.type = 'button';
+    b.innerHTML = '<span class="k">' + letters[i] + '</span><span>' + opt.t + '</span>';
+    b.style.animationDelay = (i * 0.06) + 's';
+    b.onclick = function(){
+      answers[cur] = i;
+      Array.prototype.forEach.call(box.children, function(c, j){ c.classList.toggle('on', j === i); });
+      $('btn-next').disabled = false;
+    };
+    box.appendChild(b);
+  });
+  $('btn-next').disabled = answers[cur] < 0;
+}
+ 
+function showResult(){
+  const uv = buildUserVector();
+  const ranked = CITIES.map(function(c){ return {c:c, s:scoreCity(uv, c)}; })
+                       .sort(function(a,b){return b.s - a.s;});
+  const top = ranked[0], second = ranked[1], third = ranked[2];
+ 
+  $('r-region').textContent = 'YOUR A2O LITE PERSONA';
+  $('r-city').textContent = top.c.member;
+  const png = pixelName(top.c.member);
+  $('r-name').innerHTML = png
+    ? '<img src="' + png + '" alt="' + top.c.member + '">'
+    : '<span class="r-name-fb">' + top.c.member + '</span>';
+  $('r-en').textContent = top.c.memberCn + ' · ' + top.c.loc;
+  $('r-sit').textContent = top.c.sit + ' · ' + top.c.sitEn;
+  $('r-tags').innerHTML = top.c.tags.map(function(t){return '<span>' + t + '</span>';}).join('');
+  $('r-ring').style.setProperty('--p', top.s);
+  countUp($('r-score'), top.s);
+  $('r-hl').textContent = top.c.hl;
+  $('r-fit').textContent = top.c.fit;
+  $('r-bad').textContent = top.c.bad;
+  $('r-profile').innerHTML = profileTags(uv).map(function(t){return '<span>' + t + '</span>';}).join('');
+ 
+  $('r-mix').innerHTML = memberMix(ranked).map(function(x){
+    return '<div class="mix-row"><div class="mix-n">' + x.name + '</div>' +
+           '<div class="mix-bar"><i data-w="' + x.pct + '"></i></div>' +
+           '<div class="mix-p">' + x.pct + '%</div></div>';
+  }).join('');
+  /* 条形图延后一帧再赋宽，让过渡动画跑起来 */
+  setTimeout(function(){
+    try{
+      const bars = document.querySelectorAll('#r-mix .mix-bar > i');
+      for(let i = 0; i < bars.length; i++){ bars[i].style.width = bars[i].getAttribute('data-w') + '%'; }
+    }catch(e){}
+  }, 90);
+ 
+  $('r-alt').innerHTML = [second, third].map(function(x){
+    return '<div class="alt-c"><div class="an">' + x.c.member + '</div>' +
+           '<div class="ar">' + x.c.sit + ' · ' + x.c.sitEn + '</div>' +
+           '<div class="as">契合 ' + x.s + '%</div>' +
+           '<div class="ad">' + x.c.tags.slice(0,2).join(' · ') + '</div></div>';
+  }).join('');
+ 
+  window.__resultText = '【我是 A2O LITE 里的谁】' + top.c.member + '　契合度 ' + top.s + '%\n' +
+    '💗 ' + top.c.loc + '　#' + top.c.tags.join(' #') + '\n\n' +
+    '✨ 你给人的感觉：' + top.c.hl + '\n\n' +
+    '🌿 你是这样的人：' + top.c.fit + '\n\n' +
+    '💌 温柔提醒：' + top.c.bad + '\n\n' +
+    '也很像我：' + second.c.sit + '里的' + second.c.member + ' / ' + third.c.sit + '里的' + third.c.member + '\n' +
+    '#A2OLITE #NEON #人格测试 #九人九色';
+ 
+  $('pg-quiz').classList.add('hidden');
+  $('pg-scan').classList.add('hidden');
+  $('pg-result').classList.remove('hidden');
+  replayReveal();
+  burst($('r-hero'));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+ 
+/* 最后一题交卷 → 先放一段录像带感过场，再出结果 */
+function runScan(){
+  $('pg-quiz').classList.add('hidden');
+  $('pg-scan').classList.remove('hidden');
+  window.scrollTo({top:0});
+  setTimeout(showResult, 1500);
+}
+ 
+function backToCover(){
+  answers = new Array(QUESTIONS.length).fill(-1);
+  cur = 0;
+  $('pg-result').classList.add('hidden');
+  $('pg-quiz').classList.add('hidden');
+  $('pg-cover').classList.remove('hidden');
+  window.scrollTo({top:0});
+}
+ 
+/* ---------- 事件绑定 ---------- */
+$('btn-start').onclick = function(){
+  $('pg-cover').classList.add('hidden');
+  $('pg-quiz').classList.remove('hidden');
+  renderQuestion();
+  window.scrollTo({top:0});
+};
+$('btn-next').onclick = function(){
+  if(answers[cur] < 0) return;
+  if(cur < QUESTIONS.length - 1){ cur++; renderQuestion(); window.scrollTo({top:0, behavior:'smooth'}); }
+  else runScan();
+};
+$('btn-prev').onclick = function(){
+  if(cur > 0){ cur--; renderQuestion(); }
+};
+$('btn-restart').onclick = backToCover;
+$('btn-copy').onclick = function(){
+  const text = window.__resultText || '';
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){toast('文案已复制，去小红书粘贴吧 💗');},
+      function(){fallbackCopy(text);});
+  } else fallbackCopy(text);
+};
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('文案已复制，去小红书粘贴吧 💗'); }
+  catch(e){ toast('复制失败，请长按页面截图分享'); }
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
